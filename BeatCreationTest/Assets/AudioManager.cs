@@ -6,6 +6,7 @@ using UnityEngine;
 public class AudioClipData
 {
     public KeyCode assignedKey;
+    public Color color;
     public AudioClip clip;
 }
 
