@@ -50,21 +50,24 @@ public class TuneData : MonoBehaviour
             string _inputString = Input.inputString;
             if (_inputString != "")
             {
-                string _keyName = _inputString.ToUpper()[0].ToString();
-                if (IsValidLetter(_keyName))
+                string _keys = _inputString.ToUpper();
+                for (int i = 0; i < _keys.Length; i++)
                 {
-
-                    KeyCode _keyCode = (KeyCode)System.Enum.Parse(typeof(KeyCode), _keyName);
-
-                    if (Input.GetKeyDown(_keyCode))
+                    string _key = _keys[i].ToString();
+                    if (IsValidLetter(_key))
                     {
-                        int _keyIndex = AudioManager.FindKeyIndex(_keyCode);
-                        if (_keyIndex >= 0)
+                        KeyCode _keyCode = (KeyCode)System.Enum.Parse(typeof(KeyCode), _key);
+
+                        if (Input.GetKeyDown(_keyCode))
                         {
-                            Debug.Log(_keyIndex);
-                            BeatData _curBeatData = new BeatData() { typeIndex = _keyIndex, progressRatioTime = _progress };
-                            tuneAllBeats.Add(_curBeatData);
-                            tuneTypeBeats[_keyIndex].Add(_curBeatData);
+                            int _keyIndex = AudioManager.FindKeyIndex(_keyCode);
+                            if (_keyIndex >= 0)
+                            {
+                                Debug.Log(_keyIndex);
+                                BeatData _curBeatData = new BeatData() { typeIndex = _keyIndex, progressRatioTime = _progress };
+                                tuneAllBeats.Add(_curBeatData);
+                                tuneTypeBeats[_keyIndex].Add(_curBeatData);
+                            }
                         }
                     }
                 }
