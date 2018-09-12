@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224469329642969196}
   - component: {fileID: 212671862977545110}
+  - component: {fileID: 114218263965822252}
   m_Layer: 5
   m_Name: Beat
   m_TagString: Untagged
@@ -27,6 +28,34 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &114218263965822252
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1222934823313568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 880f10ae916c77f478590cffb05aeef6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  targetPos: {x: 0, y: 1, z: 0}
+  targetPosRad: 2
+  line: {fileID: 1169551397626946, guid: 94412a6aa5e446d4686f61a62a575e7a, type: 2}
+  text: {fileID: 1902866994505400, guid: c705739960d6afb438792c339566b641, type: 2}
+  animDuration: 0.55
+  lineDuration: 0.45
+  sprite: {fileID: 212671862977545110}
+  lineMinMaxHeight: {x: 1, y: 3}
+  rectT: {fileID: 224469329642969196}
+  missScale: {x: 1, y: 2, z: 1}
+  hitScale: {x: 0, y: 2, z: 1}
+  dmgStartScale: {x: 0, y: 0, z: 0}
+  dmgAscensionSpeed: 0.3
+  expandDur: 0.25
+  waitDur: 0.35
+  fadeDur: 0.35
 --- !u!212 &212671862977545110
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -80,13 +109,13 @@ RectTransform:
   m_GameObject: {fileID: 1222934823313568}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.005, y: 1, z: 0.9998999}
+  m_LocalScale: {x: 0.005, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -0.00000023841858}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
