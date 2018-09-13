@@ -90,7 +90,6 @@ public class BeatAnim : MonoBehaviour {
         UIManager.enemyHolder.GetComponent<EnemyManager>().DealDamage(_damage);
         while (_progress < 1)
         {
-            Debug.Log(_progress);
             _progress = (Time.time - _timeStart) / expandDur;
             _smoothProgress = Mathf.SmoothStep(0, 1, _progress);
             _text.color = Color.Lerp(Color.clear, _endColor,_smoothProgress);

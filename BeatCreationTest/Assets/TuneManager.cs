@@ -21,6 +21,7 @@ public class TuneManager : MonoBehaviour
     public float scoreMinRatioSoftLowerLimit;
     public float scoreNoteTypeTurningCount;
 
+    public EnemyManager enemyManager;
     public UIManager uiManager;
     public AudioManager audioManager;
     public TuneData[] tunes;//0 is cur tune and 1 is saved tune;
@@ -70,6 +71,7 @@ public class TuneManager : MonoBehaviour
     {
         Debug.Log("Recording Started!");
         if (IsRecording || IsMatching) yield break;
+
         IsRecording = true;
         recordingSprite.gameObject.SetActive(true); 
         ClearTune(0,true);
@@ -109,7 +111,7 @@ public class TuneManager : MonoBehaviour
                 {
                     _nextBeats = FindNextBeats(_matchIndex);
                 }
-
+                //
                 if (_nextBeats[0].progressRatioTime + captureRatioLeeway < _progress)
                 {
                     //beat missed
@@ -161,9 +163,11 @@ public class TuneManager : MonoBehaviour
             InitiateBeatAnim(_matchIndex, false,0);
             _matchIndex++;
         }
+        yield return new WaitForSeconds(0.65f);
         IsMatching = false;
         playingSprite.gameObject.SetActive(false);
         ClearTune(0,false);
+        enemyManager.ResetEnemy();
     }
 
     private List<BeatData> FindNextBeats(int _index)
