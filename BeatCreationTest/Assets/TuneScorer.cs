@@ -72,8 +72,8 @@ public class TuneScorer :MonoBehaviour
             _perTypeScore += scoreForNoteType[type] + " | ";
             AudioManager.audioClipsInfo[type].baseDamage = scoreForNoteType[type];
         }
-        Debug.Log("Max Score : " + _maxTotScore);
-        Debug.Log(_perTypeScore);
+        //Debug.Log("Max Score : " + _maxTotScore);
+        //Debug.Log(_perTypeScore);
     }
 
     public static float GetAverage(List<float> _numbers)

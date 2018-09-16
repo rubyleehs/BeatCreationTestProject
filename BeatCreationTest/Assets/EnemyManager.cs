@@ -29,7 +29,8 @@ public class EnemyManager : MonoBehaviour
 
     public float enemySpawnDur;
 
-    public static int curEnemyCount = 1;
+    public static int curEnemyCount = 0;
+    public Text enemyCountText;
     private int overkillDmg;
     private void Awake()
     {
@@ -69,7 +70,7 @@ public class EnemyManager : MonoBehaviour
     public void UpdateHpBar()
     {
         float _hPRatio = ((float)enemyCurHP / (float)enemyMaxHP);
-        Debug.Log(_hPRatio + " = " + enemyCurHP + " / " +enemyMaxHP);
+        //Debug.Log(_hPRatio + " = " + enemyCurHP + " / " +enemyMaxHP);
         enemyHpBar.localPosition = Mathf.LerpUnclamped(-0.5f, 0, _hPRatio) * Vector3.right;
         enemyHpBar.localScale = Vector3.LerpUnclamped(new Vector3(0, 1, 1), Vector3.one, _hPRatio);
         if (_hPRatio < 0)
@@ -86,7 +87,7 @@ public class EnemyManager : MonoBehaviour
     {
         if(damageTaken < enemyMaxHP)
         {
-            Debug.Log("Failed! Try Again!");
+            //Debug.Log("Failed! Try Again!");
             damageTaken = 0;
             enemyCurHP = enemyMaxHP;
             UpdateHpBar();
@@ -95,7 +96,7 @@ public class EnemyManager : MonoBehaviour
         {
             StartCoroutine(KillCurEnemy());
             CreateNewEnemy();
-            Debug.Log("creating new enemy");
+            //Debug.Log("creating new enemy");
         }
     }
 
@@ -136,11 +137,13 @@ public class EnemyManager : MonoBehaviour
 
     public void CreateNewEnemy()
     {
-
         TuneScorer.currentScore += Mathf.CeilToInt(curEnemyCount * overkillDmg * overkillDmg * 0.33f);
         TuneScorer.scoreText.text = "Score: " + TuneScorer.currentScore;
+        StartCoroutine(UIManager.TextChangeAnim(TuneScorer.scoreText, 0.45f, 1.6f));
+        StartCoroutine(UIManager.TextChangeAnim(enemyCountText, 0.45f, 1.6f));
 
         curEnemyCount++;
+        enemyCountText.text = "" + curEnemyCount;
         enemyMaxHP = Mathf.Max(10,enemyMaxHP) + Mathf.CeilToInt((curEnemyCount * curEnemyCount *0.2f + overkillDmg * 0.15f));
         enemyCurHP = enemyMaxHP;
         damageTaken = 0;

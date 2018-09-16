@@ -67,7 +67,7 @@ public class BeatAnim : MonoBehaviour {
         Vector3[] _points = new Vector3[5] { this.transform.position, RandomPoint(8), 0.5f * (this.transform.position + targetPos) + Vector3.up * Random.Range(lineMinMaxHeight.x, lineMinMaxHeight.y),RandomPoint(6), targetPos + targetPosRad * (Vector3)Random.insideUnitCircle};
         while (_progress < 1)
         {
-            Debug.Log(_progress);
+            //bDebug.Log(_progress);
             _progress = (Time.time - _startTime) / lineDuration;
             _atk.position = UIManager.GetBezierCurvePoint(_points, _progress);
 

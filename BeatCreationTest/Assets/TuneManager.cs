@@ -29,7 +29,7 @@ public class TuneManager : MonoBehaviour
     public float currentTuneHalfDuration;
     public float captureRatioLeeway;
     public float maxMissLeeway;
-    public List<BeatAnim> beatAnims = new List<BeatAnim>();
+    public  static List<BeatAnim> beatAnims = new List<BeatAnim>();
 
     private int numOfBeatTypes;
     private bool IsRecording = false;
@@ -55,21 +55,21 @@ public class TuneManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
-            Debug.Log("Loading Saved Tune");
+            //Debug.Log("Loading Saved Tune");
             CopyAndPasteTune(1, 0);
             UIManager.LoadTuneVisuals(tunes[0].tuneAllBeats);
         }
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             CopyAndPasteTune(0, 1);
-            Debug.Log("Saving Current Tune");
+            //Debug.Log("Saving Current Tune");
         }
         if (Input.GetKeyDown(KeyCode.L)) UIManager.ClearTuneVisuals();
     }
 
     public IEnumerator StartNewRecording()
     {
-        Debug.Log("Recording Started!");
+        //Debug.Log("Recording Started!");
         if (IsRecording || IsMatching) yield break;
 
         IsRecording = true;
@@ -87,7 +87,7 @@ public class TuneManager : MonoBehaviour
             UIManager.SetTimerLine(_progress);
             yield return null;
         }
-        Debug.Log("Recording End!");
+        //Debug.Log("Recording End!");
         TuneScorer.ScoreTune(this.GetComponent<TuneManager>(), scoreMinRatioSoftLowerLimit, scoreNoteTypeTurningCount);
         IsRecording = false;
         recordingSprite.gameObject.SetActive(false);
@@ -115,7 +115,7 @@ public class TuneManager : MonoBehaviour
                 if (_nextBeats[0].progressRatioTime + captureRatioLeeway < _progress)
                 {
                     //beat missed
-                    Debug.Log("Beat Missed - Too Late");
+                    //Debug.Log("Beat Missed - Too Late");
                     audioManager.PlayFailAudio(true);
                     while (_nextBeats.Count > 0)
                     {
@@ -132,7 +132,7 @@ public class TuneManager : MonoBehaviour
                         {
                             if (_nextBeats[0].progressRatioTime - captureRatioLeeway > _progress && _nextBeats[0].progressRatioTime - maxMissLeeway < _progress)
                             {
-                                Debug.Log("Beat Missed - Too Early");
+                                //Debug.Log("Beat Missed - Too Early");
                                 audioManager.PlayFailAudio(false);
                                 InitiateBeatAnim(_matchIndex, false,0);
                                 _matchIndex ++;
@@ -142,7 +142,7 @@ public class TuneManager : MonoBehaviour
                             else if (_nextBeats[0].progressRatioTime + captureRatioLeeway > _progress && _nextBeats[0].progressRatioTime - captureRatioLeeway < _progress)//
                             {
                                 float _acc = Mathf.SmoothStep(1.25f,0.5f,Mathf.Abs(_nextBeats[0].progressRatioTime - _progress) / captureRatioLeeway);
-                                Debug.Log("Beat Captured");
+                                //Debug.Log("Beat Captured");
                                 StartCoroutine(audioManager.PlayClip(_nextBeats[i].typeIndex));
                                 InitiateBeatAnim(_matchIndex, true,_acc);
                                 _matchIndex++;
@@ -158,7 +158,7 @@ public class TuneManager : MonoBehaviour
         }
         while (_matchIndex < tunes[0].tuneAllBeats.Count)
         {
-            Debug.Log("Beat Missed - Too Late");
+            //Debug.Log("Beat Missed - Too Late");
             audioManager.PlayFailAudio(true);
             InitiateBeatAnim(_matchIndex, false,0);
             _matchIndex++;
@@ -238,13 +238,18 @@ public class TuneManager : MonoBehaviour
         {
             tunes[_toIndex].tuneTypeBeats[i].AddRange(tunes[_fromIndex].tuneTypeBeats[i]);
         }
+        
     }
 
     public void ClearTune(int _index, bool _clearToonVisuals)
     {
-        Debug.Log("Tune Cleared!");
-        if (_index == 0 && _clearToonVisuals) UIManager.ClearTuneVisuals();
-        tunes[_index] = new TuneData
+        //Debug.Log("Tune Cleared!");
+        if (_index == 0 && _clearToonVisuals)
+        {
+            UIManager.ClearTuneVisuals();
+            beatAnims = new List<BeatAnim>();
+        }
+            tunes[_index] = new TuneData
         {
             tuneAllBeats = new List<BeatData>(),
             tuneTypeBeats = new List<List<BeatData>>(),
@@ -254,7 +259,6 @@ public class TuneManager : MonoBehaviour
         {
             tunes[_index].tuneTypeBeats.Add(new List<BeatData>());
         }
-        beatAnims = new List<BeatAnim>();
     }
 
     public void InitiateBeatAnim(int _index, bool _beatCaptured, float _acc)

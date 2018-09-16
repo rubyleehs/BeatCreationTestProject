@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour {
 
@@ -83,6 +84,7 @@ public class UIManager : MonoBehaviour {
         _beat.type = _beatTypeIndex;
         SpriteRenderer _spriteRenderer = _beat.GetComponent<SpriteRenderer>();
         _spriteRenderer.color = AudioManager.audioClipsInfo[_beatTypeIndex].color;
+
         return _beat;
     }
     public static void ClearTuneVisuals()
@@ -101,7 +103,7 @@ public class UIManager : MonoBehaviour {
         Debug.Log("Beat Visuals Loaded!");
         for (int i = 0; i < _tuneData.Count; i++)
         {
-            CreateBeatTypeVisual(_tuneData[i].typeIndex, _tuneData[i].progressRatioTime);
+            TuneManager.beatAnims.Add(CreateBeatTypeVisual(_tuneData[i].typeIndex, _tuneData[i].progressRatioTime));
         }
     }
 
@@ -128,12 +130,12 @@ public class UIManager : MonoBehaviour {
     {
         if (bezierNodes.Length == 0)
         {
-            Debug.Log("Cannot Form Bezier Curve With No Point, returning Vector3.Zero");
+            //Debug.Log("Cannot Form Bezier Curve With No Point, returning Vector3.Zero");
             return Vector3.zero;
         }
         if (bezierNodes.Length == 1)
         {
-            Debug.Log("Cannot Form Bezier Curve With Single Point, Returning Original Point");
+            //Debug.Log("Cannot Form Bezier Curve With Single Point, Returning Original Point");
             return bezierNodes[0];
         }
         if (t > 1 || t < 0)
@@ -157,5 +159,26 @@ public class UIManager : MonoBehaviour {
 
         }
         return _finalPoints[0];
+    }
+
+    public static IEnumerator TextChangeAnim(Text _text,float _dur, float _expandRatio)
+    {
+        float _progress = 0;
+        float _smoothProgress = 0;
+        float _startTime = Time.time;
+        Color _textOriColor = _text.color;
+        int _textOriSize = _text.fontSize;
+        int _textNewSize = Mathf.CeilToInt((float)_textOriSize * _expandRatio);
+
+        while(_progress < 1)
+        {
+            _progress = (Time.time - _startTime) / _dur;
+            _smoothProgress = Mathf.SmoothStep(0, 1, _progress);
+
+            _text.fontSize = Mathf.RoundToInt(Mathf.Lerp(_textNewSize, _textOriSize, _smoothProgress));
+            _text.color = Color.Lerp(Color.white, _textOriColor, _smoothProgress);
+            yield return null;
+        }
+
     }
 }
